@@ -1,0 +1,32 @@
+<!-- templates/artifact_component.html -->
+
+<div x-data="{ isOpen: false }">
+    <div class="card mb-3">
+        <img src="{{ artifact.image.url }}" class="card-img-top" alt="Artifact Image">
+        <div class="card-body">
+            <h5 class="card-title">{{ artifact.name }}</h5>
+            <p class="card-text">{{ artifact.description }}</p>
+            <button @click="isOpen = true" class="btn btn-primary">View Details</button>
+        </div>
+    </div>
+
+    <!-- Modal for Artifact Details -->
+    <div x-show="isOpen" x-cloak class="modal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ artifact.name }} Details</h5>
+                    <button @click="isOpen = false" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Type:</strong> {{ artifact.type }}</p>
+                    <p><strong>Condition:</strong> {{ artifact.condition }}</p>
+                    <!-- Add more details as needed -->
+                </div>
+                <div class="modal-footer">
+                    <button @click="isOpen = false" class="btn btn-secondary">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

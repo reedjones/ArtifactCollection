@@ -1,0 +1,15 @@
+<!-- templates/example_form.html -->
+
+{% extends 'form.html' %}
+
+{% block title %}Create Artifact{% endblock %}
+
+{% block content %}
+    <h2>Create Artifact</h2>
+    <form id="create-artifact-form" hx-post="{% url 'create-artifact' %}" hx-trigger="submit" hx-target="#form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div id="form-container"></div>
+{% endblock %}

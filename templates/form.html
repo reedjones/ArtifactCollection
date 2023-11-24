@@ -1,0 +1,15 @@
+<!-- templates/form_template.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Form View{% endblock %}
+
+{% block content %}
+    <h2>{{ form_title }}</h2>
+    <form id="{{ form_id }}" hx-post="{{ form_action }}" hx-trigger="submit" hx-target="#form-container">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div id="form-container"></div>
+{% endblock %}

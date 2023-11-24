@@ -1,0 +1,24 @@
+<!-- templates/homepage.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Welcome to Your App</h2>
+            <!-- Add any homepage content as needed -->
+        </div>
+        {% include 'component/sidebar.html' %}
+
+        <h3>Featured Artifacts</h3>
+        <div class="row">
+            {% for artifact in featured_artifacts %}
+                <div class="col-md-6">
+                    {% include 'component/card.html' with title=artifact.name description=artifact.description image_url=artifact.image.url detail_url=artifact.get_absolute_url %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

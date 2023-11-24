@@ -1,0 +1,11 @@
+<!-- templates/detail_template.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Detail View{% endblock %}
+
+{% block content %}
+    <h2>{{ detail_title }}</h2>
+    <!-- Display details of the item -->
+    {{ item }}
+{% endblock %}

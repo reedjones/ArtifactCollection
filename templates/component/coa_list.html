@@ -1,0 +1,24 @@
+<!-- templates/coa_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}COAs{% endblock %}
+
+{% block content %}
+    <h2>Certificates of Authenticity (COAs)</h2>
+    <div x-data="{ coas: [] }" x-init="fetchCOAs()">
+        <div x-html="coas" hx-get="{% url 'get-coas' %}" hx-trigger="load"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function fetchCOAs() {
+            fetch('{% url 'get-coas' %}')
+                .then(response => response.text())
+                .then(data => {
+                    Alpine.data['x-data'].coas = data;
+                });
+        }
+    </script>
+{% endblock %}

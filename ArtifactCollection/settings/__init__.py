@@ -10,16 +10,20 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from decouple import config
-import logging
 import os
+from pathlib import Path
+
+from decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # Function to determine if the application is running in a production environment
 def is_production():
     return os.environ.get('DJANGO_ENV') == 'production'
 
+on_production = is_production()
+
+USE_TOOLBAR = True
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -46,13 +50,18 @@ INTERNAL_IPS = [
     # ...
 ]
 if DEBUG:
+    print("cool debug bro")
     ALLOWED_HOSTS += ["*"]
+    USE_DEBUG_TOOL = True
+else:
+    USE_DEBUG_TOOL = False
 
+print(USE_DEBUG_TOOL)
 # Application definition
 
 INSTALLED_APPS = [
-    "clearcache",
-    "grappelli"
+    # "clearcache",
+    "grappelli",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -68,12 +77,13 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap4",
     "django_tables2",
- 'dal',
-'dal_select2',
-    'autocomplete',
+    'rest_framework',
+
+    'dal',
+    'dal_select2',
+    # 'autocomplete',
     'dynamic_breadcrumbs',
     'django_extensions',
-'django'
     'artifacts.apps.ArtifactsConfig',
 ]
 
@@ -86,6 +96,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "ArtifactCollection.urls"
 
@@ -113,7 +126,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ArtifactCollection.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -123,7 +135,6 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -142,7 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
-
 
 from django.utils.log import DEFAULT_LOGGING
 
@@ -198,7 +208,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -228,14 +237,11 @@ EMAIL_HOST_PASSWORD = "Sudanarchives"
 DEFAULT_FROM_EMAIL = "info@harpercollection.info"
 SERVER_EMAIL = "mail.wservices.ch"
 
-
 BREADCRUMBS_TEMPLATE = "view_breadcrumbs/bootstrap4.html"
 
 USE_DEBUG_TOOL = config("USE_DEBUG", default=False, cast=bool)
 if USE_DEBUG_TOOL:
     INSTALLED_APPS.append("debug_toolbar")
-
-
 
 from django.contrib.messages import constants as message_constants
 
@@ -261,7 +267,6 @@ BOOTSTRAP4 = {
     "horizontal_field_class": "col-md-5",
 }
 
-
 META_SITE_NAME = "Harper Collection"
 META_DEFAULT_KEYWORDS = "Arrow Heads, Collection, Native American Arrow Heads"
 META_USE_TWITTER_PROPERTIES = True
@@ -279,8 +284,6 @@ elif DJANGO_ENVIRONMENT == "production":
     SITE_URL = "http://harpercollection.info"
 else:
     SITE_URL = "http://localhost:8000"
-
-
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
@@ -300,17 +303,13 @@ if is_production():
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 DEFAULT_FILE_STORAGE = 'your_project.storage_backends.PublicMediaStorage'  # Change this to your actual storage backend
 PRIVATE_FILE_STORAGE = 'your_project.storage_backends.PrivateMediaStorage'  # Change this to your actual storage backend
 
 FILE_UPLOAD_HANDLERS = ["django.core.files.uploadhandler.TemporaryFileUploadHandler"]
 
-
 RECAPTCHA_PUBLIC_KEY = "6Ldw5h0mAAAAAHMfIn951m1zU0jm0ITuOl8b8Ux5"
 RECAPTCHA_PRIVATE_KEY = "6Ldw5h0mAAAAAIvEJqoU4nK-oWMT40hPB4BCbwow"
-
-
 
 AWS_ACCESS_KEY_ID = 'your_access_key'
 AWS_SECRET_ACCESS_KEY = 'your_secret_key'
@@ -327,3 +326,26 @@ if is_production():
 else:
     # Use local storage in development
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+
+    ),
+}
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}

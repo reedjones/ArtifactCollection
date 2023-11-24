@@ -1,0 +1,12 @@
+<!-- templates/example_detail.html -->
+
+{% extends 'detail.html' %}
+
+{% block title %}Artifact Detail{% endblock %}
+
+{% block content %}
+    <h2>{{ artifact.name }} Detail</h2>
+    <p>Type: {{ artifact.type }}</p>
+    <p>Condition: {{ artifact.condition }}</p>
+    <!-- Add more details as needed -->
+{% endblock %}

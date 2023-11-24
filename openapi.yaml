@@ -1,0 +1,129 @@
+openapi: 3.0.0
+info:
+  title: Artifact Tracking API
+  description: API for managing artifacts, provenance events, collections, and more.
+  version: 1.0.0
+servers:
+  - url: https://your-api-domain.com/api/v1/
+paths:
+  /artifacts/:
+    get:
+      summary: List Artifacts
+      description: Get a list of artifacts.
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create Artifact
+      description: Create a new artifact.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactInput'
+      responses:
+        '201':
+          description: Artifact created successfully
+        '400':
+          description: Bad request
+  /artifacts/{artifact_id}/:
+    get:
+      summary: Get Artifact
+      description: Get details of a specific artifact.
+      parameters:
+        - $ref: '#/components/parameters/ArtifactId'
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Artifact not found
+    put:
+      summary: Update Artifact
+      description: Update details of a specific artifact.
+      parameters:
+        - $ref: '#/components/parameters/ArtifactId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArtifactInput'
+      responses:
+        '200':
+          description: Artifact updated successfully
+        '400':
+          description: Bad request
+        '404':
+          description: Artifact not found
+    delete:
+      summary: Delete Artifact
+      description: Delete a specific artifact.
+      parameters:
+        - $ref: '#/components/parameters/ArtifactId'
+      responses:
+        '204':
+          description: Artifact deleted successfully
+        '404':
+          description: Artifact not found
+components:
+  schemas:
+    ArtifactInput:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        condition:
+          type: string
+        description:
+          type: string
+        material_tags:
+          type: array
+          items:
+            type: integer
+        physical:
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+        location:
+          type: object
+          properties:
+            name:
+              type: string
+            state:
+              type: string
+            area:
+              type: string
+        period:
+          type: object
+          properties:
+            name:
+              type: string
+            start_date:
+              type: string
+              format: date
+            end_date:
+              type: string
+              format: date
+            description:
+              type: string
+        image_spec:
+          type: object
+          properties:
+            specification:
+              type: string
+            description:
+              type: string
+  parameters:
+    ArtifactId:
+      name: artifact_id
+      in: path
+      description: ID of the artifact
+      required: true
+      schema:
+        type: integer

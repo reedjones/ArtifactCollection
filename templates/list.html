@@ -1,0 +1,17 @@
+<!-- templates/list_template.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}List View{% endblock %}
+
+{% block content %}
+    <h2>{{ list_title }}</h2>
+    <ul class="list-group">
+        {% for item in items %}
+            <li class="list-group-item">
+                <!-- Customize the display of each item -->
+                {{ item }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -19,16 +19,25 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from ArtifactCollection.views import PDFReportView
 
 urlpatterns = [
+    # path('grappelli/', include('grappelli.urls')),  # grappelli URLS
+
     path("admin/", admin.site.urls),
+    path('api/', include('artifacts.api_urls')),  # Replace 'yourapp' with your app name
+    path('pdf-report/', PDFReportView.as_view(), name='pdf-report'),
+
 ]
 
+print(settings.DEBUG)
 
-if not settings.is_production():
+if settings.DEBUG:
+    print("updating settings")
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if hasattr(settings, "USE_TOOLBAR") and settings.USE_DEBUG_TOOL:
     urlpatterns += [
         # ...
         path("__debug__/", include("debug_toolbar.urls")),

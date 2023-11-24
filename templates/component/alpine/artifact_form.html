@@ -1,0 +1,40 @@
+<!-- templates/alpine_components/artifact_form_component.html -->
+
+<div x-data="{ isOpen: false, formData: {} }">
+    <!-- Button to open the form -->
+    <button @click="openForm()">Create Artifact</button>
+
+    <!-- Form Modal -->
+    <div x-show="isOpen" x-cloak>
+        <form @submit.prevent="submitForm()">
+            <!-- Form fields for artifact creation -->
+            <label>Name:</label>
+            <input type="text" x-model="formData.name" required>
+
+            <label>Type:</label>
+            <input type="text" x-model="formData.type" required>
+
+            <!-- Add more form fields as needed -->
+
+            <button type="submit">Submit</button>
+            <button @click="closeForm()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function openForm() {
+            Alpine.data['x-data'].isOpen = true;
+        }
+
+        function closeForm() {
+            Alpine.data['x-data'].isOpen = false;
+        }
+
+        function submitForm() {
+            // Implement form submission logic using HTMX or Fetch API
+            // Send formData to your backend API endpoint for artifact creation
+            // Close the form modal upon successful submission
+            closeForm();
+        }
+    </script>
+</div>

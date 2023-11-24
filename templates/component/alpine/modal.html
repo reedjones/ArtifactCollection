@@ -1,0 +1,12 @@
+<!-- templates/alpine_components/modal_component.html -->
+
+<div x-data="{ isOpen: false }">
+    <!-- Button to open the modal -->
+    <button @click="isOpen = true">Open Modal</button>
+
+    <!-- Modal content -->
+    <div x-show="isOpen" x-cloak>
+        <!-- Your modal content goes here -->
+        <button @click="isOpen = false">Close Modal</button>
+    </div>
+</div>

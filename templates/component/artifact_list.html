@@ -1,0 +1,24 @@
+<!-- templates/artifact_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Artifact List{% endblock %}
+
+{% block content %}
+    <h2>Artifact List</h2>
+    <div x-data="{ artifacts: [] }" x-init="fetchArtifacts()">
+        <div x-html="artifacts" hx-get="{% url 'get-artifacts' %}" hx-trigger="load"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function fetchArtifacts() {
+            fetch('{% url 'get-artifacts' %}')
+                .then(response => response.text())
+                .then(data => {
+                    Alpine.data['x-data'].artifacts = data;
+                });
+        }
+    </script>
+{% endblock %}

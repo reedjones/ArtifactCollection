@@ -15,6 +15,11 @@ django-debug-toolbar
 plotly
 pyparsing
 pypdf
+reportlab
+django-extensions
+django-dynamic-breadcrumbs
+django-autocomplete-light
+crispy-bootstrap4
 django-storages
 reportlab
 requests
@@ -45,3 +50,6 @@ django-meta
 django-mail-templated
 celery-progress
 python-decouple
+channels
+djangorestframework
+django-grappelli
