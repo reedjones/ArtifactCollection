@@ -72,6 +72,11 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "debug_toolbar",
 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',  # or any other provider you want to use
+
     "bootstrap4",
     "django_filters",
     "crispy_forms",
@@ -85,6 +90,7 @@ INSTALLED_APPS = [
     'dynamic_breadcrumbs',
     'django_extensions',
     'artifacts.apps.ArtifactsConfig',
+    'core.apps.CoreAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -95,12 +101,27 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 if DEBUG:
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "ArtifactCollection.urls"
+
+AUTHENTICATION_BACKENDS = [
+    # ...
+    'allauth.account.auth_backends.AuthenticationBackend',
+    # ...
+]
+AUTH_USER_MODEL = 'core.CustomUser'
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_ADAPTER = 'ArtifactCollection.adapters.MyAccountAdapter'  # Create a custom adapter if needed
+
+
 
 TEMPLATES = [
     {

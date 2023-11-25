@@ -27,6 +27,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('api/', include('artifacts.api_urls')),  # Replace 'yourapp' with your app name
     path('pdf-report/', PDFReportView.as_view(), name='pdf-report'),
+    path('accounts/', include('allauth.urls')),  # Add this line
 
 ]
 

@@ -1,0 +1,57 @@
+<!-- CreateArtifactForm.vue -->
+
+<template>
+  <div>
+    <h2>Create Artifact</h2>
+    <form @submit.prevent="createArtifact">
+      <label>Name: <input v-model="newArtifact.name" required></label><br>
+      <label>Type: <input v-model="newArtifact.type" required></label><br>
+      <!-- Add more form fields based on your API spec -->
+      <button type="submit">Create Artifact</button>
+    </form>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      newArtifact: {
+        name: '',
+        type: '',
+        // Add more properties based on your API spec
+      },
+    };
+  },
+  methods: {
+    async createArtifact() {
+      try {
+        const response = await fetch('https://your-api-domain.com/api/v1/artifacts/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            // Include your authentication token if required
+            // 'Authorization': 'Bearer <your-token>',
+          },
+          body: JSON.stringify(this.newArtifact),
+        });
+
+        if (response.status === 201) {
+          console.log('Artifact created successfully');
+          // Fetch artifacts again to update the list
+          this.$emit('artifact-created');
+          // Reset the form
+          this.newArtifact = {
+            name: '',
+            type: '',
+          };
+        } else {
+          console.error('Error creating artifact:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error creating artifact:', error);
+      }
+    },
+  },
+};
+</script>

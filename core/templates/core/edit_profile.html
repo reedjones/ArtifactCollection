@@ -1,0 +1,13 @@
+<!-- templates/profile/edit_profile.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Profile</h2>
+  <form method="post" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+  <a href="{% url 'view_profile' %}">Cancel</a>
+{% endblock %}

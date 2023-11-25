@@ -1,0 +1,11 @@
+<!-- templates/profile/view_profile.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Profile</h2>
+  <p>Username: {{ user.username }}</p>
+  <p>Email: {{ user.email }}</p>
+  <!-- Add other profile fields as needed -->
+  <a href="{% url 'edit_profile' %}">Edit Profile</a>
+{% endblock %}

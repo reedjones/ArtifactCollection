@@ -13,12 +13,62 @@
 
 {% block scripts %}
     <script>
+            const baseUrl = 'https://your-api-domain.com/api/v1/';
+
         function fetchArtifacts() {
             fetch('{% url 'get-artifacts' %}')
                 .then(response => response.text())
                 .then(data => {
                     Alpine.data['x-data'].artifacts = data;
                 });
+        }
+
+
+        async function fetchArtifactsApi() {
+            try {
+                const response = await fetch(`${baseUrl}artifacts/`);
+                const artifacts = await response.json();
+
+                const artifactsList = document.getElementById('artifacts-list');
+                artifactsList.innerHTML = '';
+
+                artifacts.forEach(artifact => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `ID: ${artifact.id}, Name: ${artifact.name}, Type: ${artifact.type}`;
+                    artifactsList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error('Error fetching artifacts:', error);
+            }
+        }
+
+        async function createArtifact(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('artifact-name').value;
+            const type = document.getElementById('artifact-type').value;
+
+            try {
+                const response = await fetch(`${baseUrl}artifacts/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Include your authentication token if required
+                        // 'Authorization': 'Bearer <your-token>',
+                    },
+                    body: JSON.stringify({ name, type }),
+                });
+
+                if (response.status === 201) {
+                    console.log('Artifact created successfully');
+                    // Fetch artifacts again to update the list
+                    fetchArtifacts();
+                } else {
+                    console.error('Error creating artifact:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error creating artifact:', error);
+            }
         }
     </script>
 {% endblock %}

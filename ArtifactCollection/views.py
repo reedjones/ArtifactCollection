@@ -1,6 +1,4 @@
 __author__ = "reed@reedjones.me"
-from django.shortcuts import render
-from django import forms
 
 #
 #
@@ -18,6 +16,9 @@ from django import forms
 
 from django.core.mail import EmailMessage
 
+from artifacts.models import Artifact
+
+
 def send_notification_email_with_attachment(user, message, attachment_path):
     subject = 'Notification'
     from_email = 'your_email@example.com'
@@ -33,6 +34,10 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
+
+
+# views.py
+
 
 class PDFReportView(View):
     def get(self, request, *args, **kwargs):

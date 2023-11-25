@@ -16,6 +16,7 @@ plotly
 pyparsing
 pypdf
 reportlab
+django-allauth
 django-extensions
 django-dynamic-breadcrumbs
 django-autocomplete-light

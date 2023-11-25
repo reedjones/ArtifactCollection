@@ -18,10 +18,10 @@ urlpatterns = [
     path('artifact-models/<int:pk>/', ArtifactModelDetail.as_view(), name='artifact-model-detail'),
 path('api/events/', ProvenanceEventListCreateView.as_view(), name='event-list-create'),
     path('api/events/<int:pk>/', ProvenanceEventDetailView.as_view(), name='event-detail'),
-    path('collections/', CollectionListCreateView.as_view(), name='collection-list-create'),
-    path('collections/<int:pk>/', CollectionDetailView.as_view(), name='collection-detail'),
+    path('collections/', CollectionList.as_view(), name='collection-list-create'),
+    path('collections/<int:pk>/', CollectionDetail.as_view(), name='collection-detail'),
 
-    path('trades/', TradeListCreateView.as_view(), name='trade-list-create'),
-    path('trades/<int:pk>/', TradeDetailView.as_view(), name='trade-detail'),
+    path('trades/', TradeList.as_view(), name='trade-list-create'),
+    path('trades/<int:pk>/', TradeDetail.as_view(), name='trade-detail'),
 
 ]
