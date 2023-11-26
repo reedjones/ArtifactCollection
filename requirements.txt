@@ -4,7 +4,10 @@ colorama
 django-bootstrap4
 django-crispy-forms
 django-filter
+autologging
+django-vite
 django-tables2
+django-cors-headers
 fabric
 django-recaptcha
 lxml
@@ -15,6 +18,7 @@ django-debug-toolbar
 plotly
 pyparsing
 pypdf
+django-webpack-loader
 reportlab
 django-allauth
 django-extensions

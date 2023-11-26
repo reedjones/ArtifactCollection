@@ -20,14 +20,22 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from ArtifactCollection.views import PDFReportView
+from django.shortcuts import render
+def home(request):
+    return render(request, 'homepage2.html', {
+
+    })
 
 urlpatterns = [
     # path('grappelli/', include('grappelli.urls')),  # grappelli URLS
 
     path("admin/", admin.site.urls),
-    path('api/', include('artifacts.api_urls')),  # Replace 'yourapp' with your app name
+    path('artifacts-api/', include('artifacts.api_urls')),  # Replace 'yourapp' with your app name
+    path('api-service/', include('data_service.urls')),
     path('pdf-report/', PDFReportView.as_view(), name='pdf-report'),
     path('accounts/', include('allauth.urls')),  # Add this line
+
+    path('', home, name='home')
 
 ]
 

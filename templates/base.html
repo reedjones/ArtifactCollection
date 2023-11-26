@@ -1,5 +1,5 @@
 <!-- templates/base.html -->
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,23 +9,44 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          rel="stylesheet"
 
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+          crossorigin="anonymous">
     <!-- HTMX & AlpineJS -->
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
-</head>
-<body>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">Your App</a>
-        <!-- Add any additional navigation elements here -->
-    </div>
-</nav>
 
+    {#    {% load render_bundle from webpack_loader %}#}
+    {#    {% render_bundle 'main' 'css' %}#}
+</head>
+<body hx-boost="true">
+<!-- Navbar -->
+{% include 'nav.html' %}
 <!-- Page Content -->
-<div class="container mt-4">
-    {% block content %}{% endblock %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
+            <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu"
+                 aria-labelledby="sidebarMenuLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="sidebarMenuLabel">{% block sidebar-title %}{% endblock %}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
+                            aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+                    {% block sidebar-content %} {% endblock %}
+                </div>
+            </div>
+        </div>
+
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
 </div>
 
 <!-- Bootstrap JS and Popper.js -->
@@ -46,7 +67,10 @@
         }
     {% endif %}
 </script>
+{#{% render_bundle 'main' 'js' %}#}
+{% block scripts %}
 
+{% endblock %}
 
 </body>
 </html>

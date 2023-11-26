@@ -17,9 +17,12 @@ from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+
 # Function to determine if the application is running in a production environment
 def is_production():
     return os.environ.get('DJANGO_ENV') == 'production'
+
 
 on_production = is_production()
 
@@ -48,6 +51,15 @@ INTERNAL_IPS = [
     # ...
     "127.0.0.1",
     # ...
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://harpercollection.info",
+    "http://localhost*",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://127.0.0.1*",
+  "http://127.0.0.1:5173"
 ]
 if DEBUG:
     print("cool debug bro")
@@ -83,19 +95,35 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "django_tables2",
     'rest_framework',
+    'webpack_loader',
 
     'dal',
     'dal_select2',
     # 'autocomplete',
+    'django_vite',
+    "corsheaders",
     'dynamic_breadcrumbs',
     'django_extensions',
     'artifacts.apps.ArtifactsConfig',
     'core.apps.CoreAppConfig',
+    'data_service.apps.DataServiceConfig'
 ]
 
+# WEBPACK_LOADER = {
+#   'DEFAULT': {
+#     'CACHE': not DEBUG,
+#     'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+#     'POLL_INTERVAL': 0.1,
+#     'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
+#   }
+# }
+
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -120,8 +148,6 @@ AUTH_USER_MODEL = 'core.CustomUser'
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_ADAPTER = 'ArtifactCollection.adapters.MyAccountAdapter'  # Create a custom adapter if needed
-
-
 
 TEMPLATES = [
     {
@@ -307,7 +333,12 @@ else:
     SITE_URL = "http://localhost:8000"
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'assets'),
+    os.path.join(BASE_DIR, 'frontend'),
+
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collectstatic directory in production
 
 # Media files (User-uploaded content)
@@ -348,8 +379,6 @@ else:
     # Use local storage in development
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -363,7 +392,6 @@ REST_FRAMEWORK = {
 
     ),
 }
-
 
 CHANNEL_LAYERS = {
     'default': {

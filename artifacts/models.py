@@ -1,8 +1,9 @@
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.db.models import F, QuerySet, Subquery, Count
+
+from django.db.models import OuterRef
 
 
 class EventActorMixin:
@@ -19,12 +20,20 @@ class EventActorMixin:
         return self.event_model(object_id=self.pk, content_type=c)
 
 
+from django.utils.functional import cached_property
+
+
 # Create your models here.
 class State(models.Model):
     name = models.CharField(max_length=255)
     short = models.CharField(max_length=4, unique=True)
     description = models.TextField(default="no description")
+
     # location = models.ForeignKey(Location, on_delete=models.CASCADE)
+
+    @cached_property
+    def flag_url(self):
+        return f"/static/flags/Flag_of_{self.name}.svg"
 
 
 class County(models.Model):
@@ -47,6 +56,7 @@ class Region(models.Model):
 
 from django.db import models
 
+
 class Geography(models.Model):
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, default=None)
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, default=None)
@@ -54,6 +64,11 @@ class Geography(models.Model):
 
 
 class Physical(models.Model):
+    """
+
+
+    """
+
     class ConditionType(models.TextChoices):
         excellent = "excellent"
         good = "good"
@@ -70,6 +85,10 @@ class Physical(models.Model):
 
 
 class ArtifactModelManager(models.Manager):
+    """
+       Manager for `Artifact` model
+        """
+
     def get_by_category(self, category):
         """
         artifacts_by_category = ArtifactModel.objects.get_by_category('Projectile Point')
@@ -79,11 +98,62 @@ class ArtifactModelManager(models.Manager):
         """
         return self.filter(artifact_category__category=category)
 
+    def with_photos(self):
+        return self.prefetch_related('photos').annotate(
+            photo_url=Subquery(
+                Photo.objects.get_for_artifact().values('filename')[0]
+            )
+        )
+
+    def with_related(self, *args):
+        return self.select_related(*args)
+
+    def with_photos_and_categories(self):
+        main_photo_subquery = Photo.objects.filter(
+            artifact=OuterRef('pk')
+        ).order_by('pk').values('filename')[:1]
+        qs = self.with_related('category', 'geography').prefetch_related('photos').annotate(
+            photo_url=Subquery(main_photo_subquery),
+            photo_count=Count('photos'),
+            subcategory=F('category__parent__name'),
+            maincategory=F('category__name'),
+            category_attribute=F('category__attribute__name'),
+            from_state=F('geography__state__name')
+        )
+        return qs
+
+    def with_categories(self, use_values=False, initial_qs: QuerySet = None):
+        if initial_qs:
+            qs = initial_qs.annotate(
+                subcategory=F('category__parent__name'),
+                maincategory=F('category__name'),
+                category_attribute=F('category__attribute__name'))
+        else:
+            qs = self.with_related('category') \
+                .annotate(
+                subcategory=F('category__parent__name'),
+                maincategory=F('category__name'),
+                category_attribute=F('category__attribute__name')
+            )
+        if not use_values:
+            return qs
+        return qs.values('aw_item_number', 'category_attribute', 'maincategory', 'subcategory')
+
+    def with_materials(self):
+        return self.prefetch_related('materials')
+
 
 class Artifact(Physical):
+    """
+        Represents information about artifacts.
+
+        Attributes:
+            name (str): The name of the artifact.
+            ... (add descriptions for other fields)
+        """
     name = models.CharField(max_length=255, db_index=True)
     provenance_details = models.TextField(default="na")
-    category = models.ForeignKey('Category', on_delete=models.SET_NULL,default=None, null=True)
+    category = models.ForeignKey('Category', on_delete=models.SET_NULL, default=None, null=True)
     finder = models.ForeignKey('Person', on_delete=models.SET_NULL, default=None, null=True)
     aw_item_number = models.IntegerField(default=None, null=True)
     geography = models.ForeignKey(Geography, on_delete=models.SET_NULL, null=True, default=None)
@@ -91,7 +161,7 @@ class Artifact(Physical):
 
     @property
     def category_hierarchy(self):
-        return f"{self.category.parent} > {self.artifact_category.sub_category} > {self.artifact_category.attribute}"
+        return f"{self.category} > {self.category.parent} > {self.category.attribute}"
 
     def get_provenance_events(self):
         return ProvenanceEvent.objects.filter(artifact=self).order_by('date')
@@ -109,6 +179,32 @@ class Artifact(Physical):
         if not self.name:
             self.name = f"unnamed artifact"
         super(Artifact, self).save(*args, **kwargs)
+
+
+class PhotoManger(models.Manager):
+    def get_for_artifact(self):
+        return self.filter(
+            artifact_id=OuterRef('id')
+        )
+
+
+class Photo(models.Model):
+    objects = PhotoManger()
+
+    class PhotoType(models.TextChoices):
+        artifact = "artifact"
+        document = "document"
+        other = "other"
+
+    artifact = models.ForeignKey(Artifact,
+                                 on_delete=models.SET_NULL, null=True, default=None, related_name='photos')
+    file = models.FileField(null=True, default=None)
+    filename = models.CharField(max_length=255)
+    title = models.TextField(default="no caption")
+    photo_type = models.CharField(max_length=30, default=PhotoType.other, choices=PhotoType.choices)
+
+
+
 
 class MaterialTag(models.Model):
     name = models.CharField(max_length=255, db_index=True)
@@ -205,7 +301,7 @@ class ProvenanceEvent(models.Model):
     objects = ProvenanceEventManager()
 
     @classmethod
-    def trigger(cls, actor, event_type: str, artifact : Artifact, **kwargs):
+    def trigger(cls, actor, event_type: str, artifact: Artifact, **kwargs):
         c = ContentType.objects.get_for_model(actor)
         i = actor.pk
         return cls(object_id=i, content_type=c, event_type=event_type, artifact=artifact, **kwargs)
@@ -216,14 +312,12 @@ class ProvenanceEvent(models.Model):
         indexes = [
             models.Index(fields=['artifact', 'event_type', 'date']),
         ]
-        
+
     def save(self, *args, **kwargs):
         if self._state.adding:
-            f = self.artifact.provenanceevent_set.count() + 1 
-            self.level = f 
+            f = self.artifact.provenanceevent_set.count() + 1
+            self.level = f
         super(ProvenanceEvent, self).save(*args, **kwargs)
-
-
 
 
 class Trade(models.Model):
@@ -274,14 +368,3 @@ class COA(models.Model):
     artifact = models.ForeignKey('Artifact', on_delete=models.CASCADE)
 
 
-class Photo(models.Model):
-    class PhotoType(models.TextChoices):
-        artifact = "artifact"
-        document = "document"
-        other = "other"
-
-    artifact = models.ForeignKey(Artifact, on_delete=models.SET_NULL, null=True, default=None)
-    file = models.FileField()
-    filename = models.CharField(max_length=255)
-    title = models.TextField(default="no caption")
-    photo_type = models.CharField(max_length=30, default=PhotoType.other, choices=PhotoType.choices)
