@@ -22,6 +22,11 @@ from django.conf.urls.static import static
 from ArtifactCollection.views import PDFReportView
 from django.shortcuts import render
 def home(request):
+    return render(request, 'homepage.html', {
+
+    })
+
+def home2(request):
     return render(request, 'homepage2.html', {
 
     })

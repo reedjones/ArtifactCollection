@@ -31,7 +31,9 @@ USE_TOOLBAR = True
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = os.environ.get('SECRET_KEY', None)
+if not SECRET_KEY:
+  SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
@@ -52,6 +54,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 CORS_ALLOWED_ORIGINS = [
     "https://harpercollection.info",
@@ -95,28 +98,38 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "django_tables2",
     'rest_framework',
-    'webpack_loader',
 
     'dal',
     'dal_select2',
     # 'autocomplete',
-    'django_vite',
+    # 'webpack_loader',
     "corsheaders",
     'dynamic_breadcrumbs',
     'django_extensions',
     'artifacts.apps.ArtifactsConfig',
     'core.apps.CoreAppConfig',
-    'data_service.apps.DataServiceConfig'
-]
+    'data_service.apps.DataServiceConfig',
+    'drf_generators',
+    "django_vite",
 
-# WEBPACK_LOADER = {
-#   'DEFAULT': {
-#     'CACHE': not DEBUG,
-#     'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
-#     'POLL_INTERVAL': 0.1,
-#     'IGNORE': [r'.+\.hot-update.js', r'.+\.map'],
-#   }
-# }
+]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+DJANGO_VITE_ASSETS_PATH = BASE_DIR / "static" / "dist"
+
+# use HMR or not.
+DJANGO_VITE_DEV_MODE = False # Debu
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
+
+
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -336,7 +349,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'assets'),
-    os.path.join(BASE_DIR, 'frontend'),
+    # os.path.join(BASE_DIR, 'frontend'),
+    DJANGO_VITE_ASSETS_PATH
 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collectstatic directory in production
