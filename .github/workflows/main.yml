@@ -1,7 +1,6 @@
 # .github/workflows/main.yml
 
 name: Django CI/CD
-
 on:
   push:
     branches:
@@ -26,6 +25,8 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run tests
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         python manage.py test
 
@@ -36,12 +37,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.5
+      - name: Deploy to Server
+        uses: Sithi5/remote-ssh-commands-action@main
         with:
-          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
-
-      - name: Deploy to Remote Server
-        run: |
-          ssh user@your-server 'export SECRET_KEY='your_secret_key' && cd /path/to/your/project && git pull origin main && ./deploy.sh'
-          
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+          SSH_PORT: 22
+          SSH_REMOTE_COMMANDS: ls -la;pwd;echo "Hello World ! here's a secret ${{ secrets.SECRET_KEY }}"
+          run: |
+            echo "would run command: ssh user@your-server 'export SECRET_KEY='your_secret_key' && cd /path/to/your/project && git pull origin main && ./deploy.sh'"
+            
