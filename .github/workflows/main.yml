@@ -10,8 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        uses: tiyee/action-ssh@v1.0.1
+        uses: garygrossgarten/github-action-scp@1,0
+
         with:
+          local: test/oof.txt
+          remote: scp/single/oof.txt
+
+          password: ${{ secrets.PASSWORD }}
 #          local: test/oof.txt
 #          host: scp/single/oof.txt
           host: ${{ secrets.SSH_HOST }}
