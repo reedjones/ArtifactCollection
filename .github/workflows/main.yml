@@ -9,9 +9,8 @@ jobs:
   test_ssh:
     runs-on: ubuntu-latest
     steps:
-      - name: Copy single file to remote
+      - name: Testing
         uses: tiyee/action-ssh@release
-        run: "mkdir test && touch oof.txt && echo 'hello' > oof.txt"
         with:
 #          local: test/oof.txt
 #          host: scp/single/oof.txt
@@ -19,6 +18,7 @@ jobs:
           port: 22
           username: ${{ secrets.SSH_USER }}
           privatekey: ${{ secrets.DEPLOY_SSH_KEY }}
+          command: 'ls && pwd && echo hello world'
 
   build:
     runs-on: ubuntu-latest
