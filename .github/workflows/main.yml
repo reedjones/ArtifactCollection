@@ -1,5 +1,5 @@
 # .github/workflows/main.yml
-
+# "would run command: ssh user@your-server 'export SECRET_KEY='your_secret_key' && cd /path/to/your/project && git pull origin main && ./deploy.sh'"
 name: Django CI/CD
 on:
   push:
@@ -45,6 +45,5 @@ jobs:
           SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
           SSH_PORT: 22
           SSH_REMOTE_COMMANDS: ls -la;pwd;echo "Hello World ! here's a secret ${{ secrets.SECRET_KEY }}"
-          run: |
-            echo "would run command: ssh user@your-server 'export SECRET_KEY='your_secret_key' && cd /path/to/your/project && git pull origin main && ./deploy.sh'"
+
             
