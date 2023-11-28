@@ -10,20 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        uses: garygrossgarten/github-action-scp@1.0
-
+        uses: appleboy/ssh-action@master
         with:
-          local: test/oof.txt
-          remote: scp/single/oof.txt
-
+#          local: test/oof.txt
+#          remote: scp/single/oof.txt
           password: ${{ secrets.PASSWORD }}
 #          local: test/oof.txt
 #          host: scp/single/oof.txt
           host: ${{ secrets.SSH_HOST }}
           port: 22
           username: ${{ secrets.SSH_USER }}
-          privatekey: ${{ secrets.DEPLOY_SSH_KEY }}
-          command: 'ls && pwd && echo hello world'
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: 'whoami && ls && pwd && echo hello world'
 
   build:
     runs-on: ubuntu-latest
