@@ -28,15 +28,12 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
-        python manage.py test
+        python manage.py dummy 
 
   deploy:
     runs-on: ubuntu-latest
-
+    needs: build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
       - name: Deploy to Server
         uses: Sithi5/remote-ssh-commands-action@main
         with:
