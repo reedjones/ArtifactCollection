@@ -41,6 +41,6 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
           SSH_PORT: 22
-          SSH_REMOTE_COMMANDS: ls -la;pwd;echo "Hello World ! here's a secret ${{ secrets.SECRET_KEY }}"
+          SSH_REMOTE_COMMANDS: ls -la;pwd;echo "Hello World !"
 
             
