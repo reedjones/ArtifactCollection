@@ -12,11 +12,7 @@ jobs:
       - name: Testing
         uses: appleboy/ssh-action@master
         with:
-#          local: test/oof.txt
-#          remote: scp/single/oof.txt
           password: ${{ secrets.PASSWORD }}
-#          local: test/oof.txt
-#          host: scp/single/oof.txt
           host: ${{ secrets.SSH_HOST }}
           port: 22
           username: ${{ secrets.SSH_USER }}
