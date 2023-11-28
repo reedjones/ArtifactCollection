@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/frontend/sakai-vue" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static/us-state-flags-svg" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/data/us-state-flags-svg" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/frontend/sakai-vue" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/static" vcs="Git" />
   </component>
 </project>

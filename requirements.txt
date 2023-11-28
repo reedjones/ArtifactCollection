@@ -13,7 +13,7 @@ django-recaptcha
 lxml
 numpy
 django-webpack-loader
-
+spacy
 pandas
 Pillow
 django-debug-toolbar
