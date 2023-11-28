@@ -1,0 +1,33 @@
+{% load flatpages %}
+{% get_flatpages as flatpages %}
+<footer class="container p-4 mt-2 text-lg-start" id="footer">
+    <div class="row d-flex ">
+        <div class="col col-md mt-auto">
+            <h5>Site</h5>
+            <ul class="list-unstyled text-small">
+                {% for page in flatpages %}
+                    <li>
+                        <a class="text-muted" href="/pages{{ page.url }}">{{ page.title|capfirst }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col col-md justify-content-around align-baseline align-self-baseline mt-auto">
+            <small class="d-block mb-3 text-muted" id="copyrightYear"></small>
+        </div>
+
+        <div class="col col-md mt-auto">
+            {% if request.user.is_authenticated %}
+                <span>Hello <strong><a class="username link">{{ request.user.username }}</a></strong> you are logged in as <span class="badge badge-secondary">{{ request.user.profile.user_type }}</span></span>
+                <a href="{% url 'logout' %}">Click here to logout</a>
+            {% else %}
+                <span>Hello you are logged out</span>
+                <a href="{% url 'login' %}">Click here to login</a>
+            {% endif %}
+        </div>
+    </div>
+</footer>
+<script>
+    const copyrightFooter = `<p>Copyright © 2016 - ${new Date().getFullYear()} Dana Harper</p>`;
+    document.getElementById('copyrightYear').innerHTML = copyrightFooter;
+</script>

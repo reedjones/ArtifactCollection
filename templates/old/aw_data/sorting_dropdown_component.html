@@ -1,0 +1,10 @@
+<!-- sorting_dropdown_component.html -->
+<div>
+    <label for="sortSelect" class="mr-2">Sort by:</label>
+    <select id="sortSelect" x-model="sortKey" @change="reverse = !reverse">
+        <option value="name">Name</option>
+        <option value="state__name">State</option>
+        <option value="region__name">Region</option>
+        <!-- Add more options for sorting criteria -->
+    </select>
+</div>

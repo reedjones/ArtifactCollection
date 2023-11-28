@@ -11,9 +11,9 @@ from rest_framework.test import APIClient
 
 import logging
 import sys
-from autologging import logged, TRACE, traced
+# from autologging import logged, TRACE, traced
 
-logging.basicConfig(level=logging.DEBUG, stream=sys.stdout,format="HIHIH%(levelname)s:%(filename)s,%(lineno)d:%(name)s.%(funcName)s:%(message)s")
+# logging.basicConfig(level=logging.DEBUG, stream=sys.stdout,format="HIHIH%(levelname)s:%(filename)s,%(lineno)d:%(name)s.%(funcName)s:%(message)s")
 
 @traced
 class DataServiceAPITest(TestCase):

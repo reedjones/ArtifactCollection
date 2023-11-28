@@ -1,0 +1,13 @@
+<!-- artifacts_list_partial.html -->
+<!-- ... -->
+<a @click="showArtifactDetail(artifact)" href="#" class="btn btn-primary">View Details</a>
+<!-- ... -->
+
+<!-- AlpineJS script -->
+<script>
+    function showArtifactDetail(artifact) {
+        this.selectedArtifact = artifact;
+        // You may also navigate to the detail page using window.location or a similar method
+        // For simplicity, we're just updating the selectedArtifact in this example
+    }
+</script>

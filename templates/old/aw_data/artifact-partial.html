@@ -1,0 +1,21 @@
+<!-- artifact_detail_partial.html -->
+<div x-data="{ isModalOpen: false }">
+    <div class="container mt-4">
+        <h2>Artifact Detail</h2>
+
+        <!-- Display detailed information about the selected artifact -->
+        <div>
+            <h3>{{ selectedArtifact.name }}</h3>
+            <p>State: {{ selectedArtifact.state.name }}</p>
+            <p>Region: {{ selectedArtifact.region.name }}</p>
+            <!-- Add more details as needed -->
+
+            <button @click="isModalOpen = true" class="btn btn-primary">View Photos</button>
+        </div>
+
+        <!-- AlpineJS modal for viewing artifact photos -->
+            <div x-html="include('modal_component.html')"></div>
+
+
+    </div>
+</div>

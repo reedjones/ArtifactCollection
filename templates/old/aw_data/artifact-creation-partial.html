@@ -1,0 +1,12 @@
+<!-- artifact_creation_form_partial.html -->
+<form>
+    {% csrf_token %}
+
+    <!-- Include the Autocomplete Component -->
+    <div x-data="@include('autocomplete_component.html')" x-init="() => { fetchOptions = fetchMaterials; }">
+        <label for="materials">Materials:</label>
+        <div x-html="include('autocomplete_component.html')"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Artifact</button>
+</form>

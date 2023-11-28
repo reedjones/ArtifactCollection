@@ -1,0 +1,161 @@
+<div x-data="{ activeTab: 'artifact' }" class="col-12">
+
+    <!-- Search Tabs -->
+    <ul class="nav nav-tabs" id="searchTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link" id="artifact-tab" data-toggle="tab" href="#artifact" role="tab"
+               aria-controls="artifact" aria-selected="true"
+               x-bind:class="{ 'active': activeTab === 'artifact' }" x-on:click="activeTab = 'artifact'">Artifacts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="people-tab" data-toggle="tab" href="#people" role="tab"
+               aria-controls="people" aria-selected="false" x-bind:class="{ 'active': activeTab === 'people' }"
+               x-on:click="activeTab = 'people'">People</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="collections-tab" data-toggle="tab" href="#collections" role="tab"
+               aria-controls="collections" aria-selected="false"
+               x-bind:class="{ 'active': activeTab === 'collections' }" x-on:click="activeTab = 'collections'">Collections</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map"
+               aria-selected="false" x-bind:class="{ 'active': activeTab === 'map' }"
+               x-on:click="activeTab = 'map'">Map</a>
+        </li>
+    </ul>
+
+    <!-- Search Content -->
+    <div class="tab-content mt-3">
+        <!-- Artifact Tab -->
+        <div class="tab-pane fade show active" id="artifact" role="tabpanel" aria-labelledby="artifact-tab"
+             x-show="activeTab === 'artifact'" x-cloak>
+            <!-- Use HTMX for server-side interaction -->
+            <div>
+                <h4>Narrow your search by:</h4>
+                <!-- Search Filters -->
+                <!-- ... Your existing filter controls ... -->
+                <div id="add-here"></div>
+            </div>
+            <div id="artifact-content">
+                <!-- Content from the server will be loaded here -->
+            </div>
+        </div>
+
+        <!-- People Tab -->
+        <div class="tab-pane fade" id="people" role="tabpanel" aria-labelledby="people-tab"
+             x-show="activeTab === 'people'" x-cloak>
+            <!-- Use HTMX for server-side interaction -->
+            <div hx-get="{% url 'personfinder_list' %}" hx-trigger="click" hx-target="#people-content">
+                <h4>Search for people by name:</h4>
+                <!-- Search for people input -->
+                <!-- ... Your existing people search controls ... -->
+            </div>
+            <div id="people-content">
+                <!-- Content from the server will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Collections Tab -->
+        <div class="tab-pane fade" id="collections" role="tabpanel" aria-labelledby="collections-tab"
+             x-show="activeTab === 'collections'" x-cloak>
+            <!-- Use HTMX for server-side interaction -->
+            <div hx-get="{% url 'collection_list' %}" hx-trigger="click" hx-target="#collections-content">
+                <h4>Search for collections by name:</h4>
+                <!-- Search for collections input -->
+                <!-- ... Your existing collections search controls ... -->
+            </div>
+            <div id="collections-content">
+                <!-- Content from the server will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Map Tab -->
+        <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab"
+             x-show="activeTab === 'map'" x-cloak>
+            <h4>Display a map:</h4>
+            <!-- Add map integration code here -->
+        </div>
+    </div>
+</div>
+
+
+<script type="module">
+    // drill-down-search.js
+    class DrillDownSearch extends HTMLElement {
+        constructor() {
+            super();
+
+            // Create shadow DOM
+            this.attachShadow({mode: 'open'});
+
+            // Initial state
+            this.filters = [
+                {name: 'Category', value: ''},
+                {name: 'Type', value: ''},
+                {name: 'Collection', value: ''},
+                {name: 'Include Tags', value: ''},
+                {name: 'Exclude Tags', value: ''}
+            ];
+
+            this.sortOptions = ['id', 'name', 'dateCreated', 'dateUpdated', 'type'];
+            this.selectedSort = 'id';
+
+            // Render the component
+            this.render();
+        }
+
+        // Handle filter changes
+        handleFilterChange(index, event) {
+            this.filters[index].value = event.target.value;
+            this.render();
+        }
+
+        // Handle sort option change
+        handleSortChange(event) {
+            this.selectedSort = event.target.value;
+            this.render();
+        }
+
+        // Render the component
+        render() {
+            this.shadowRoot.innerHTML = `
+      <style>
+        /* Add your component styles here */
+        label {
+          display: block;
+          margin-top: 10px;
+        }
+      </style>
+      <div>
+        <h2>Narrow your search by:</h2>
+        ${this.filters.map((filter, index) => `
+          <label>${filter.name}:
+            <input type="text" value="${filter.value}" @input="${(e) => this.handleFilterChange(index, e)}">
+          </label>
+        `).join('')}
+        <button @click="${() => this.addFilter()}">+ Add another search filter</button>
+
+        <h2>Sort by:</h2>
+        <label>Sort:
+          <select @change="${this.handleSortChange.bind(this)}">
+            ${this.sortOptions.map(option => `
+              <option value="${option}" ${option === this.selectedSort ? 'selected' : ''}>${option}</option>
+            `).join('')}
+          </select>
+        </label>
+      </div>
+    `;
+        }
+
+        // Add another search filter
+        addFilter() {
+            this.filters.push({name: 'New Filter', value: ''});
+            this.render();
+        }
+    }
+
+    // Define the custom element
+    customElements.define('drill-down-search', DrillDownSearch);
+    let ddsearch = document.createElement('drill-down-search')
+    document.getElementById('add-here').appendChild(ddsearch)
+</script>

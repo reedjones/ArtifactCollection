@@ -1,0 +1,11 @@
+<!-- generic_detail.html -->
+<div>
+    <h2>{{ model_name|title }} Detail</h2>
+
+    <div>
+        <!-- Display detailed information about the selected object -->
+        <!-- Include a link to the list view for the related artifacts -->
+
+        <button @click="window.location.href='{% url 'advanced_artifact_list' %}'" class="btn btn-primary">View Related Artifacts</button>
+    </div>
+</div>

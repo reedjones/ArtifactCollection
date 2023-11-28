@@ -1,0 +1,25 @@
+
+
+<!-- generic_list.html -->
+<div>
+    <h2>{{ model_name|title }} List</h2>
+
+    <!-- Add a search input field -->
+    <form method="get" class="mb-3">
+        <input type="text" name="search" class="form-control" placeholder="Search...">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    <div class="row">
+        <template x-for="object in objects" :key="object.id">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Display object information as needed -->
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <!-- Include Pagination Component -->
+    <div x-html="include('pagination_component.html')"></div>
+</div>

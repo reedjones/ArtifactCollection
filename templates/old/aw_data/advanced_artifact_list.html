@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- advanced_artifact_list.html -->
+<div>
+    <!-- ... Existing content ... -->
+
+    <!-- Advanced Filter Form -->
+    <form method="get" class="mt-4" hx-get="{% url 'advanced_artifact_list' %}" hx-target="#artifact-list" hx-swap="outerHTML">
+        {{ filter.form|crispy }}
+        <button type="submit" class="btn btn-primary">Apply Advanced Filter</button>
+    </form>
+
+    <!-- Artifacts List -->
+    <div class="row">
+        <template x-for="artifact in artifacts" :key="artifact.id">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Display artifact information as needed -->
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+<script>
+
+</script>
+{% endblock %}

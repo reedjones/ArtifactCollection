@@ -1,0 +1,29 @@
+<!-- artifact_detail_partial.html -->
+<div x-data="{ isModalOpen: false }">
+    <div class="container mt-4">
+        <h2>Artifact Detail</h2>
+
+        <!-- Display detailed information about the selected artifact -->
+        <div>
+             <h3>{{ selectedArtifact.name }}</h3>
+                <p>State: {{ selectedArtifact.state.name }}</p>
+                <p>Region: {{ selectedArtifact.region.name }}</p>
+                <p>Area: {{ selectedArtifact.area.name }}</p>
+                <p>County: {{ selectedArtifact.county.name }}</p>
+                <p>Type Category: {{ selectedArtifact.type_category.name }}</p>
+
+                <!-- Add more details as needed -->
+                <p>Materials: {{ selectedArtifact.materials.all}}</p>
+                <p>Finder: {{ selectedArtifact.finder.name }}</p>
+                <p>Category: {{ selectedArtifact.category.name }}</p>
+                <p>Subtype: {{ selectedArtifact.subtype.name }}</p>
+
+
+            <button @click="isModalOpen = true" class="btn btn-primary">View Photos</button>
+        </div>
+
+        <!-- Include the Modal Component -->
+        <div x-html="{% include 'aw_data/modal_component.html' %}"></div>
+    </div>
+</div>
+

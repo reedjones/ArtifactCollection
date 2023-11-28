@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+     {% if advanced_filter %}
+        <form method="get" class="mt-4" hx-get="{% url 'artifact_list' %}" hx-target="#artifact-list" hx-swap="outerHTML">
+            {{ advanced_filter.form|crispy }}
+            <button type="submit" class="btn btn-primary">Apply Advanced Filter</button>
+        </form>
+    {% endif %}
+    <!-- artifacts_list_partial.html -->
+    <div x-data="{ artifacts: {{ artifacts_json|safe }}, sortKey: 'name', reverse: false, searchTerm:'' }">
+        <div class="container mt-4">
+            <h2>Artifact List</h2>
+
+            <!-- Search Form -->
+            <div class="mb-3">
+                <input x-model="searchTerm" type="text" class="form-control" placeholder="Search artifacts...">
+            </div>
+
+            <!-- Add htmx attributes to the form to enable dynamic updates -->
+            <form hx-get="{% url 'search_artifacts' %}" hx-trigger="submit changed delay:500ms">
+                <input type="hidden" name="search_term" x-model="searchTerm">
+
+                <div class="row">
+                    <!-- Use hx-swap to replace the entire artifact list with the updated one -->
+                    <div hx-swap="outerHTML" hx-target="#artifact-list">
+                        {% include 'aw_data/artifact_list_partial.html' %}
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- AlpineJS script -->
+
+    </div>
+
+    <!-- AlpineJS script -->
+
+
+    {% if filter %}
+        <form method="get" class="mt-4">
+            {{ filter.form|crispy }}
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
+{% block js_scripts %}
+    <script>
+        function artifactMatchesSearch(artifact) {
+            return artifact.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+        }
+    </script>
+    <script>
+        function setup() {
+            return {
+
+                get sortedArtifacts() {
+                    return this.artifacts.sort((a, b) => {
+                        let modifier = 1;
+                        if (this.reverse) modifier = -1;
+                        return modifier * (a[this.sortKey].toLowerCase() > b[this.sortKey].toLowerCase() ? 1 : -1);
+                    });
+                }
+
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,6 +1,16 @@
-<!-- templates/homepage.html -->
+{% extends 'base.html' %}{% load django_vite %}
 
-{% extends 'base.html' %}
+
+{% block head %}
+
+      <link rel="icon" href="/static/favicon.ico">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sakai Vue</title>
+          <link id="theme-css" rel="stylesheet" type="text/css" href="/static/dist/themes/lara-light-indigo/theme.css">
+  <script type="module" crossorigin src="/static/dist/assets/index-9012b4d6.js"></script>
+  <link rel="stylesheet" href="/static/dist/assets/index-dc864ace.css">
+
+{% endblock %}
 
 {% block title %}Home{% endblock %}
 
@@ -10,118 +20,11 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row"
-         x-data="{ activeTab: 'artifact', artifacts: [] }">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h2 x-text="activeTab"></h2>
-           <div class="d-flex justify-content-between flex-md-nowrap align-items-center"> <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group me-2">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                </div>
-                <button type="button"
-                        class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
-                    <svg class="bi">
-                        <use xlink:href="#calendar3"></use>
-                    </svg>
-                    This week
-                </button>
-            </div></div>
-        </div>
+    <div class="row" style="margin-top:100px;">
         <div class="col-12">
-
-            <!-- Search Tabs -->
-            <ul class="nav nav-tabs" id="searchTabs" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" id="artifact-tab" data-toggle="tab" href="#artifact" role="tab"
-                       aria-controls="artifact" aria-selected="true"
-                       x-bind:class="{ 'active': activeTab === 'artifact' }" x-on:click="activeTab = 'artifact'">Artifacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="people-tab" data-toggle="tab" href="#people" role="tab"
-                       aria-controls="people" aria-selected="false" x-bind:class="{ 'active': activeTab === 'people' }"
-                       x-on:click="activeTab = 'people'">People</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="collections-tab" data-toggle="tab" href="#collections" role="tab"
-                       aria-controls="collections" aria-selected="false"
-                       x-bind:class="{ 'active': activeTab === 'collections' }" x-on:click="activeTab = 'collections'">Collections</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map"
-                       aria-selected="false" x-bind:class="{ 'active': activeTab === 'map' }"
-                       x-on:click="activeTab = 'map'">Map</a>
-                </li>
-            </ul>
-
-            <!-- Search Content -->
-            <div class="tab-content mt-3">
-                <!-- Artifact Tab -->
-                <div class="tab-pane fade show active" id="artifact" role="tabpanel" aria-labelledby="artifact-tab"
-                     x-show="activeTab === 'artifact'" x-cloak>
-                    <!-- Use HTMX for server-side interaction -->
-                    <div>
-                        <h4>Narrow your search by:</h4>
-                        <!-- Search Filters -->
-                        <!-- ... Your existing filter controls ... -->
-                        <div id="add-here"></div>
-                    </div>
-                    <div id="artifact-content">
-                        <!-- Content from the server will be loaded here -->
-                    </div>
-                </div>
-
-                <!-- People Tab -->
-                <div class="tab-pane fade" id="people" role="tabpanel" aria-labelledby="people-tab"
-                     x-show="activeTab === 'people'" x-cloak>
-                    <!-- Use HTMX for server-side interaction -->
-
-                    <div id="people-content">
-                        <!-- Content from the server will be loaded here -->
-                    </div>
-                </div>
-
-                <!-- Collections Tab -->
-                <div class="tab-pane fade" id="collections" role="tabpanel" aria-labelledby="collections-tab"
-                     x-show="activeTab === 'collections'" x-cloak>
-                    <!-- Use HTMX for server-side interaction -->
-                    <div hx-get="" hx-trigger="click" hx-target="#collections-content">
-                        <h4>Search for collections by name:</h4>
-                        <!-- Search for collections input -->
-                        <!-- ... Your existing collections search controls ... -->
-                    </div>
-                    <div id="collections-content">
-                        <!-- Content from the server will be loaded here -->
-                    </div>
-                </div>
-
-                <!-- Map Tab -->
-                <div class="tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab"
-                     x-show="activeTab === 'map'" x-cloak>
-                    <h4>Display a map:</h4>
-                    <!-- Add map integration code here -->
-                </div>
-            </div>
+            <div id="app"></div>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-12 d-flex" id="search-top-bar">
-            <span class="badge badge-secondary">Filtered By</span>
-            <a class="link">Clear All</a>
-        </div>
-
-        <div class="col-12" id="search-results">
-            <template x-for="artifact in artifacts" :key="artifact.id">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <!-- Display artifact information as needed -->
-                    </div>
-                </div>
-            </template>
-        </div>
-    </div>
-
 
 
 {% endblock %}

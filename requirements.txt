@@ -12,6 +12,8 @@ fabric
 django-recaptcha
 lxml
 numpy
+django-webpack-loader
+
 pandas
 Pillow
 django-debug-toolbar

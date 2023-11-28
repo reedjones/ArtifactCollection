@@ -1,94 +1,146 @@
-__author__ = "reed@reedjones.me"
-from rest_framework import serializers
-from .models import (
-    Artifact, MaterialTag, Category,
-    Period, Collection, ArtifactOwnership, Trade,
-    Person, Date, COA, Photo, State, County, Region, ProvenanceEvent
+from rest_framework.serializers import ModelSerializer
+from artifacts.models import (
+    State, County, Region, Geography, Artifact, Photo,
+    MaterialTag, Attribute,
+    Category, Period, Collection, ArtifactOwnership,
+    ProvenanceEvent, Trade, Person, Date, COA
 )
 
-class RegionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Region
-        fields = '__all__'
 
-class StateSerializer(serializers.ModelSerializer):
+class StateSerializer(ModelSerializer):
+
     class Meta:
         model = State
-        fields = ('name', 'description')
+        depth = 2
+        fields = '__all__'
 
-class CountySerializer(serializers.ModelSerializer):
+
+class CountySerializer(ModelSerializer):
+
     class Meta:
         model = County
-        fields = ('name', 'description', 'state')
+        depth = 2
+        fields = '__all__'
 
 
+class RegionSerializer(ModelSerializer):
 
-class ArtifactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Region
+        depth = 2
+        fields = '__all__'
+
+
+class GeographySerializer(ModelSerializer):
+
+    class Meta:
+        model = Geography
+        depth = 2
+        fields = '__all__'
+
+
+class ArtifactSerializer(ModelSerializer):
+
     class Meta:
         model = Artifact
+        depth = 2
         fields = '__all__'
 
-class MaterialTagSerializer(serializers.ModelSerializer):
+
+class PhotoSerializer(ModelSerializer):
+
+    class Meta:
+        model = Photo
+        depth = 2
+        fields = '__all__'
+
+
+class MaterialTagSerializer(ModelSerializer):
+
     class Meta:
         model = MaterialTag
+        depth = 2
         fields = '__all__'
 
 
+class AttributeSerializer(ModelSerializer):
 
-class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Attribute
+        depth = 2
+        fields = '__all__'
+
+
+class CategorySerializer(ModelSerializer):
+
     class Meta:
         model = Category
+        depth = 2
         fields = '__all__'
 
-class PeriodSerializer(serializers.ModelSerializer):
+
+class PeriodSerializer(ModelSerializer):
+
     class Meta:
         model = Period
+        depth = 2
         fields = '__all__'
 
 
-class PersonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Person
-        fields = '__all__'
-
-class CollectionSerializer(serializers.ModelSerializer):
-    owner = PersonSerializer()
+class CollectionSerializer(ModelSerializer):
 
     class Meta:
         model = Collection
+        depth = 2
         fields = '__all__'
 
-class ArtifactOwnershipSerializer(serializers.ModelSerializer):
+
+class ArtifactOwnershipSerializer(ModelSerializer):
+
     class Meta:
         model = ArtifactOwnership
-        fields = '__all__'
-
-class TradeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Trade
+        depth = 2
         fields = '__all__'
 
 
+class ProvenanceEventSerializer(ModelSerializer):
 
-class DateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Date
-        fields = '__all__'
-
-class COASerializer(serializers.ModelSerializer):
-    class Meta:
-        model = COA
-        fields = '__all__'
-
-class PhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Photo
-        fields = '__all__'
-
-
-
-class ProvenanceEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProvenanceEvent
+        depth = 2
         fields = '__all__'
+
+
+class TradeSerializer(ModelSerializer):
+
+    class Meta:
+        model = Trade
+        depth = 2
+        fields = '__all__'
+
+
+class PersonSerializer(ModelSerializer):
+
+    class Meta:
+        model = Person
+        depth = 2
+        fields = '__all__'
+
+
+class DateSerializer(ModelSerializer):
+
+    class Meta:
+        model = Date
+        depth = 2
+        fields = '__all__'
+
+
+class COASerializer(ModelSerializer):
+
+    class Meta:
+        model = COA
+        depth = 2
+        fields = '__all__'
+
+
 

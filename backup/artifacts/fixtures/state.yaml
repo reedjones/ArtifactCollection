@@ -1,0 +1,349 @@
+- model: artifacts.state
+  pk: 1
+  fields:
+    name: Alabama
+    short: AL
+    description: The Heart of Dixie
+
+- model: artifacts.state
+  pk: 2
+  fields:
+    name: Alaska
+    short: AK
+    description: The Last Frontier
+
+- model: artifacts.state
+  pk: 3
+  fields:
+    name: Arizona
+    short: AZ
+    description: The Grand Canyon State
+
+- model: artifacts.state
+  pk: 4
+  fields:
+    name: Arkansas
+    short: AR
+    description: The Natural State
+
+- model: artifacts.state
+  pk: 5
+  fields:
+    name: California
+    short: CA
+    description: The Golden State
+
+- model: artifacts.state
+  pk: 6
+  fields:
+    name: Colorado
+    short: CO
+    description: The Centennial State
+
+- model: artifacts.state
+  pk: 7
+  fields:
+    name: Connecticut
+    short: CT
+    description: The Constitution State
+
+- model: artifacts.state
+  pk: 8
+  fields:
+    name: Delaware
+    short: DE
+    description: The First State
+
+- model: artifacts.state
+  pk: 9
+  fields:
+    name: Florida
+    short: FL
+    description: The Sunshine State
+
+- model: artifacts.state
+  pk: 10
+  fields:
+    name: Georgia
+    short: GA
+    description: The Peach State
+
+- model: artifacts.state
+  pk: 11
+  fields:
+    name: Hawaii
+    short: HI
+    description: The Aloha State
+
+- model: artifacts.state
+  pk: 12
+  fields:
+    name: Idaho
+    short: ID
+    description: The Gem State
+
+- model: artifacts.state
+  pk: 13
+  fields:
+    name: Illinois
+    short: IL
+    description: The Prairie State
+
+- model: artifacts.state
+  pk: 14
+  fields:
+    name: Indiana
+    short: IN
+    description: The Hoosier State
+
+- model: artifacts.state
+  pk: 15
+  fields:
+    name: Iowa
+    short: IA
+    description: The Hawkeye State
+
+- model: artifacts.state
+  pk: 16
+  fields:
+    name: Kansas
+    short: KS
+    description: The Sunflower State
+
+- model: artifacts.state
+  pk: 17
+  fields:
+    name: Kentucky
+    short: KY
+    description: The Bluegrass State
+
+- model: artifacts.state
+  pk: 18
+  fields:
+    name: Louisiana
+    short: LA
+    description: The Pelican State
+
+- model: artifacts.state
+  pk: 19
+  fields:
+    name: Maine
+    short: ME
+    description: The Pine Tree State
+
+- model: artifacts.state
+  pk: 20
+  fields:
+    name: Maryland
+    short: MD
+    description: The Old Line State
+
+- model: artifacts.state
+  pk: 21
+  fields:
+    name: Massachusetts
+    short: MA
+    description: The Bay State
+
+- model: artifacts.state
+  pk: 22
+  fields:
+    name: Michigan
+    short: MI
+    description: The Great Lakes State
+
+- model: artifacts.state
+  pk: 23
+  fields:
+    name: Minnesota
+    short: MN
+    description: The North Star State
+
+- model: artifacts.state
+  pk: 24
+  fields:
+    name: Mississippi
+    short: MS
+    description: The Magnolia State
+
+- model: artifacts.state
+  pk: 25
+  fields:
+    name: Missouri
+    short: MO
+    description: The Show-Me State
+
+- model: artifacts.state
+  pk: 26
+  fields:
+    name: Montana
+    short: MT
+    description: The Treasure State
+
+- model: artifacts.state
+  pk: 27
+  fields:
+    name: Nebraska
+    short: NE
+    description: The Cornhusker State
+
+- model: artifacts.state
+  pk: 28
+  fields:
+    name: Nevada
+    short: NV
+    description: The Silver State
+
+- model: artifacts.state
+  pk: 29
+  fields:
+    name: New Hampshire
+    short: NH
+    description: The Granite State
+
+- model: artifacts.state
+  pk: 30
+  fields:
+    name: New Jersey
+    short: NJ
+    description: The Garden State
+
+- model: artifacts.state
+  pk: 31
+  fields:
+    name: New Mexico
+    short: NM
+    description: The Land of Enchantment
+
+- model: artifacts.state
+  pk: 32
+  fields:
+    name: New York
+    short: NY
+    description: The Empire State
+
+- model: artifacts.state
+  pk: 33
+  fields:
+    name: North Carolina
+    short: NC
+    description: The Tar Heel State
+
+- model: artifacts.state
+  pk: 34
+  fields:
+    name: North Dakota
+    short: ND
+    description: The Peace Garden State
+
+- model: artifacts.state
+  pk: 35
+  fields:
+    name: Ohio
+    short: OH
+    description: The Buckeye State
+
+- model: artifacts.state
+  pk: 36
+  fields:
+    name: Oklahoma
+    short: OK
+    description: The Sooner State
+
+- model: artifacts.state
+  pk: 37
+  fields:
+    name: Oregon
+    short: OR
+    description: The Beaver State
+
+- model: artifacts.state
+  pk: 38
+  fields:
+    name: Pennsylvania
+    short: PA
+    description: The Keystone State
+
+- model: artifacts.state
+  pk: 39
+  fields:
+    name: Rhode Island
+    short: RI
+    description: The Ocean State
+
+- model: artifacts.state
+  pk: 40
+  fields:
+    name: South Carolina
+    short: SC
+    description: The Palmetto State
+
+- model: artifacts.state
+  pk: 41
+  fields:
+    name: South Dakota
+    short: SD
+    description: The Mount Rushmore State
+
+- model: artifacts.state
+  pk: 42
+  fields:
+    name: Tennessee
+    short: TN
+    description: The Volunteer State
+
+- model: artifacts.state
+  pk: 43
+  fields:
+    name: Texas
+    short: TX
+    description: The Lone Star State
+
+- model: artifacts.state
+  pk: 44
+  fields:
+    name: Utah
+    short: UT
+    description: The Beehive State
+
+- model: artifacts.state
+  pk: 45
+  fields:
+    name: Vermont
+    short: VT
+    description: The Green Mountain State
+
+- model: artifacts.state
+  pk: 46
+  fields:
+    name: Virginia
+    short: VA
+    description: The Old Dominion State
+
+- model: artifacts.state
+  pk: 47
+  fields:
+    name: Washington
+    short: WA
+    description: The Evergreen State
+
+- model: artifacts.state
+  pk: 48
+  fields:
+    name: West Virginia
+    short: WV
+    description: The Mountain State
+
+- model: artifacts.state
+  pk: 49
+  fields:
+    name: Wisconsin
+    short: WI
+    description: The Badger State
+
+- model: artifacts.state
+  pk: 50
+  fields:
+    name: Wyoming
+    short: WY
+    description: The Equality State

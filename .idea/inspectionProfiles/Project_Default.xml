@@ -1,0 +1,125 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="CssInvalidPseudoSelector" enabled="true" level="TYPO" enabled_by_default="true" editorAttributes="TYPO" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="TEXT ATTRIBUTES" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="0" />
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="9">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="display-p3" />
+            <item index="7" class="java.lang.String" itemvalue="--neon-red" />
+            <item index="8" class="java.lang.String" itemvalue="--neon-blue" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="63">
+            <item index="0" class="java.lang.String" itemvalue="pictures" />
+            <item index="1" class="java.lang.String" itemvalue="joblib" />
+            <item index="2" class="java.lang.String" itemvalue="threadpoolctl" />
+            <item index="3" class="java.lang.String" itemvalue="tabulate" />
+            <item index="4" class="java.lang.String" itemvalue="psycopg2" />
+            <item index="5" class="java.lang.String" itemvalue="defusedxml" />
+            <item index="6" class="java.lang.String" itemvalue="invoke" />
+            <item index="7" class="java.lang.String" itemvalue="MarkupSafe" />
+            <item index="8" class="java.lang.String" itemvalue="django-bootstrap4" />
+            <item index="9" class="java.lang.String" itemvalue="Faker" />
+            <item index="10" class="java.lang.String" itemvalue="pip" />
+            <item index="11" class="java.lang.String" itemvalue="certifi" />
+            <item index="12" class="java.lang.String" itemvalue="lxml" />
+            <item index="13" class="java.lang.String" itemvalue="soupsieve" />
+            <item index="14" class="java.lang.String" itemvalue="pyparsing" />
+            <item index="15" class="java.lang.String" itemvalue="tifffile" />
+            <item index="16" class="java.lang.String" itemvalue="django-report-builder" />
+            <item index="17" class="java.lang.String" itemvalue="Werkzeug" />
+            <item index="18" class="java.lang.String" itemvalue="django-crispy-forms" />
+            <item index="19" class="java.lang.String" itemvalue="tablib" />
+            <item index="20" class="java.lang.String" itemvalue="asgiref" />
+            <item index="21" class="java.lang.String" itemvalue="cryptography" />
+            <item index="22" class="java.lang.String" itemvalue="reportlab" />
+            <item index="23" class="java.lang.String" itemvalue="pydyf" />
+            <item index="24" class="java.lang.String" itemvalue="pypdf" />
+            <item index="25" class="java.lang.String" itemvalue="gunicorn" />
+            <item index="26" class="java.lang.String" itemvalue="click" />
+            <item index="27" class="java.lang.String" itemvalue="contourpy" />
+            <item index="28" class="java.lang.String" itemvalue="xarray" />
+            <item index="29" class="java.lang.String" itemvalue="fonttools" />
+            <item index="30" class="java.lang.String" itemvalue="odfpy" />
+            <item index="31" class="java.lang.String" itemvalue="paramiko" />
+            <item index="32" class="java.lang.String" itemvalue="imageio" />
+            <item index="33" class="java.lang.String" itemvalue="sourcery" />
+            <item index="34" class="java.lang.String" itemvalue="django-filter" />
+            <item index="35" class="java.lang.String" itemvalue="fabric" />
+            <item index="36" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="37" class="java.lang.String" itemvalue="charset-normalizer" />
+            <item index="38" class="java.lang.String" itemvalue="dash" />
+            <item index="39" class="java.lang.String" itemvalue="dtale" />
+            <item index="40" class="java.lang.String" itemvalue="pyhanko-certvalidator" />
+            <item index="41" class="java.lang.String" itemvalue="xhtml2pdf" />
+            <item index="42" class="java.lang.String" itemvalue="pylint-django" />
+            <item index="43" class="java.lang.String" itemvalue="requests" />
+            <item index="44" class="java.lang.String" itemvalue="django-tables2" />
+            <item index="45" class="java.lang.String" itemvalue="importlib-metadata" />
+            <item index="46" class="java.lang.String" itemvalue="sqlparse" />
+            <item index="47" class="java.lang.String" itemvalue="XlsxWriter" />
+            <item index="48" class="java.lang.String" itemvalue="celery" />
+            <item index="49" class="java.lang.String" itemvalue="pyphen" />
+            <item index="50" class="java.lang.String" itemvalue="zipp" />
+            <item index="51" class="java.lang.String" itemvalue="Flask" />
+            <item index="52" class="java.lang.String" itemvalue="blinker" />
+            <item index="53" class="java.lang.String" itemvalue="django-data-browser" />
+            <item index="54" class="java.lang.String" itemvalue="pyHanko" />
+            <item index="55" class="java.lang.String" itemvalue="lazy-loader" />
+            <item index="56" class="java.lang.String" itemvalue="MarkupPy" />
+            <item index="57" class="java.lang.String" itemvalue="stone" />
+            <item index="58" class="java.lang.String" itemvalue="pandas" />
+            <item index="59" class="java.lang.String" itemvalue="Django" />
+            <item index="60" class="java.lang.String" itemvalue="pylint" />
+            <item index="61" class="java.lang.String" itemvalue="ply" />
+            <item index="62" class="java.lang.String" itemvalue="Pillow" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N802" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="core.utils.code_generation.translate.jquery.__pragma__" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+    <inspection_tool class="Stylelint" enabled="true" level="ERROR" enabled_by_default="true" />
+    <inspection_tool class="TsLint" enabled="true" level="WARNING" enabled_by_default="true" />
+  </profile>
+</component>

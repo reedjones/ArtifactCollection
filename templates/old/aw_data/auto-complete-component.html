@@ -1,0 +1,19 @@
+<!-- autocomplete_component.html -->
+<div x-data="{ isOpen: false, options: [], selectedOption: '' }">
+    <input
+        x-model="selectedOption"
+        type="text"
+        class="form-control"
+        placeholder="Type to search..."
+        @input="fetchOptions"
+        @focus="isOpen = true"
+        @blur="isOpen = false"
+    >
+
+    <!-- Display autocomplete options when the input is focused and options are available -->
+    <div x-show="isOpen && options.length > 0" class="autocomplete-options">
+        <ul>
+            <li x-for="option in options" @click="selectOption(option)">{{ option }}</li>
+        </ul>
+    </div>
+</div>
