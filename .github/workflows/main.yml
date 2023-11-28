@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Testing
-        uses: tiyee/action-ssh@release
+        uses: tiyee/action-ssh@v1.0.1
         with:
 #          local: test/oof.txt
 #          host: scp/single/oof.txt
