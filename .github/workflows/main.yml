@@ -12,11 +12,9 @@ jobs:
       - name: Testing
         uses: appleboy/ssh-action@master
         with:
-          password: ${{ secrets.PASSWORD }}
           host: ${{ secrets.DEPLOY_SSH_HOST }}
-          port: 22
           username: ${{ secrets.DEPLOY_SSH_USER }}
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          key: ${{ secrets.NEW_SSH_KEY }}
           script: 'whoami && ls && pwd && echo hello world'
 
   build:
