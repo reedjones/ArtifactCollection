@@ -1,4 +1,3 @@
-<!-- templates/base.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -15,12 +14,30 @@
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
           crossorigin="anonymous">
     <!-- HTMX & AlpineJS -->
+
     <script src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
 
+    <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
+    <script src="{% url 'api-docs:schema-js' %}"></script>
+
+    <script defer>
+
+        let auth = new coreapi.auth.SessionAuthentication();
+        let client = new coreapi.Client();
+        window.Client = client;
+        console.log(window.client)
+        /*
+        let auth = new coreapi.auth.SessionAuthentication({
+            csrfCookieName: 'csrftoken',
+            csrfHeaderName: 'X-CSRFToken',
+        });
+        let client = new coreapi.Client({auth: auth});
+         */
+    </script>
     {#    {% load render_bundle from webpack_loader %}#}
     {#    {% render_bundle 'main' 'css' %}#}
-{% block head %}{% endblock %}
+    {% block head %}{% endblock %}
 </head>
 <body hx-boost="true">
 <!-- Navbar -->

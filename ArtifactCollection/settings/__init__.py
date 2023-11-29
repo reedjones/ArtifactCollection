@@ -33,22 +33,39 @@ USE_TOOLBAR = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', None)
 if not SECRET_KEY:
-  SECRET_KEY = config("SECRET_KEY")
+    SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 DJANGO_ENVIRONMENT = config("DJANGO_ENVIRONMENT", default="production")
+ON_PRODUCTION = DJANGO_ENVIRONMENT == 'production'
+if ON_PRODUCTION and DEBUG:
+    if not input('Your running DEBUG on production! \n To continue press [y]') == 'y':
+        exit("Whoops....")
+
 SITE_ID = 1
 
-ALLOWED_HOSTS = [
-    "*.harpercollection.info",
-    "harpercollection.info",
-    "www.harpercollection.info'",
-    "harpertest.django.group",
-    "dev.harpertest.django.group",
-    "localhost",
 
-]
+allowed_host_path = config.get('allowed_host_path', None)
+allowed_cors_path = config.get('allowed_cors_path', None)
+
+
+if DEBUG and not ON_PRODUCTION:
+    ALLOWED_HOSTS = [
+        "*"
+    ]
+    CORS_ALLOWED_ORIGINS=[
+        "*"
+    ]
+else:
+    with open(allowed_cors_path, 'r') as f:
+        CORS_ALLOWED_ORIGINS = f.readlines()
+    with open(allowed_host_path, 'r') as f:
+        ALLOWED_HOSTS = f.readlines()
+
+
+
+
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -62,7 +79,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://127.0.0.1*",
-  "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
+    'artifacts.django.group',
+    "*django.group*"
 ]
 if DEBUG:
     print("cool debug bro")
@@ -98,11 +117,13 @@ INSTALLED_APPS = [
     "crispy_bootstrap4",
     "django_tables2",
     'rest_framework',
+    'rest_framework.authtoken',  # <-- Here
 
     'dal',
     'dal_select2',
     # 'autocomplete',
     # 'webpack_loader',
+
     "corsheaders",
     'dynamic_breadcrumbs',
     'django_extensions',
@@ -110,26 +131,20 @@ INSTALLED_APPS = [
     'core.apps.CoreAppConfig',
     'data_service.apps.DataServiceConfig',
     'drf_generators',
-    "django_vite",
 
 ]
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-DJANGO_VITE_ASSETS_PATH = BASE_DIR / "static" / "dist"
 
 # use HMR or not.
-DJANGO_VITE_DEV_MODE = False # Debu
-
 
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
-
-
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -146,7 +161,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
-if DEBUG:
+if DEBUG and not ON_PRODUCTION:
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 ROOT_URLCONF = "ArtifactCollection.urls"
@@ -156,7 +171,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
     # ...
 ]
-AUTH_USER_MODEL = 'core.CustomUser'
+AUTH_USER_MODEL = 'core.User'
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
@@ -188,13 +203,31 @@ WSGI_APPLICATION = "ArtifactCollection.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+import json
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if ON_PRODUCTION:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.environ.get('POSTGRES_DB'),
+            "USER": os.environ.get("POSTGRES_USER"),
+            "PASSWORD":os.environ.get("POSTGRES_PASSWORD"),
+            "HOST":os.environ.get("POSTGRES_HOST"),
+            "PORT":os.environ.get("POSTGRES_PORT")
+        },
+        "lite": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
     }
-}
+
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -278,7 +311,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 TEMPLATED_EMAIL_BACKEND = "templated_email.backends.vanilla_django"
-DEFAULT_FROM_EMAIL = "info@harpercollection.info"
+DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL", "")
 
 if DJANGO_ENVIRONMENT not in ["development", "production"]:
     EMAIL_BACKEND = config(
@@ -289,13 +322,13 @@ else:
         "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
     )
 
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST = "mail.wservices.ch"
-EMAIL_HOST_USER = "info@harpercollection.info"
-EMAIL_HOST_PASSWORD = "Sudanarchives"
-DEFAULT_FROM_EMAIL = "info@harpercollection.info"
-SERVER_EMAIL = "mail.wservices.ch"
+EMAIL_USE_TLS = config.get("EMAIL_USE_TLS", "")
+EMAIL_PORT =config.get("EMAIL_PORT", "")
+EMAIL_HOST = config.get("EMAIL_HOST", "")
+EMAIL_HOST_USER = config.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = config.get("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL ", "")
+SERVER_EMAIL = config.get("SERVER_EMAIL", "")
 
 BREADCRUMBS_TEMPLATE = "view_breadcrumbs/bootstrap4.html"
 
@@ -327,30 +360,26 @@ BOOTSTRAP4 = {
     "horizontal_field_class": "col-md-5",
 }
 
-META_SITE_NAME = "Harper Collection"
+META_SITE_NAME = "Archeo"
+META_SITE_DESCRIPTION = "Archeological artifacts application and API for researchers, collectors, and hobbiest"
 META_DEFAULT_KEYWORDS = "Arrow Heads, Collection, Native American Arrow Heads"
 META_USE_TWITTER_PROPERTIES = True
 META_USE_OG_PROPERTIES = True
 META_SITE_PROTOCOL = config("META_SITE_PROTOCOL", default="http")
-META_SITE_DOMAIN = "harpercollection.info"
+META_SITE_DOMAIN = config.get('META_SITE_DOMAIN', '')
 CELERY_TIMEZONE = TIME_ZONE
 
-ADMINS = [("Reed", "reedjones760@yahoo.com"), ("Darrell", "jhonson@well.com")]
-ADMIN_CONTACT_EMAIL = "admin@harpercollection.info"
-ADMIN_NOTIFY_EMAIL = "jhonson@well.com"
-if DJANGO_ENVIRONMENT == "development":
-    SITE_URL = "http://harpertest.django.group"
-elif DJANGO_ENVIRONMENT == "production":
-    SITE_URL = "http://harpercollection.info"
-else:
-    SITE_URL = "http://localhost:8000"
+ADMINS = [i.split(",") for i in config.get("ADMINS", "").split("|")]
+ADMIN_CONTACT_EMAIL = config.get("ADMIN_CONTACT_EMAIL", "")
+ADMIN_NOTIFY_EMAIL = config.get("ADMIN_NOTIFY_EMAIL", "")
+
+SITE_URL = config.get('SITE_URL', "http://localhost:8000")
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'assets'),
-    # os.path.join(BASE_DIR, 'frontend'),
-    DJANGO_VITE_ASSETS_PATH
+    # os.path.join(BASE_DIR, 'assets'),
 
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collectstatic directory in production
@@ -394,14 +423,17 @@ else:
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        # # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authe'
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.IsAdminUser',
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAdminUser',
         'rest_framework.permissions.AllowAny',
 
     ),
@@ -412,3 +444,10 @@ CHANNEL_LAYERS = {
         'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
+
+
+if ON_PRODUCTION:
+    _path = "~/var/LEGACY_DATABASE_CONNECT.json"
+    with open(_path, 'r') as f:
+        data = json.load(f)
+        DATABASES['legacy'] = data['default']

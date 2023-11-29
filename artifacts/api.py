@@ -74,6 +74,7 @@ class StateDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AwImageSpecDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PhotoSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -87,7 +88,7 @@ class PhotoList(generics.ListCreateAPIView):
 
 
 class COADetail(generics.RetrieveUpdateDestroyAPIView):
-
+    serializer_class = COASerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -101,6 +102,7 @@ class COAList(generics.ListCreateAPIView):
 
 
 class DateDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = DateSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -114,6 +116,7 @@ class DateList(generics.ListCreateAPIView):
 
 
 class PersonDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PersonSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -127,6 +130,7 @@ class PersonList(generics.ListCreateAPIView):
 
 
 class TradeDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TradeSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -140,6 +144,7 @@ class TradeList(generics.ListCreateAPIView):
 
 
 class ArtifactOwnershipDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ArtifactOwnershipSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -153,6 +158,7 @@ class ArtifactOwnershipList(generics.ListCreateAPIView):
 
 
 class CollectionDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CollectionSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -166,6 +172,7 @@ class CollectionList(generics.ListCreateAPIView):
 
 
 class PeriodDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PeriodSerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -179,6 +186,7 @@ class PeriodList(generics.ListCreateAPIView):
 
 
 class TypeCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CategorySerializer
     def get(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
@@ -205,10 +213,16 @@ class MaterialTagList(generics.ListCreateAPIView):
 
 
 class ArtifactModelDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ArtifactSerializer
+
     def get(self, request, *args, **kwargs):
-        instance = self.get_object()
+        pk = self.kwargs["pk"]
+        instance =  Artifact.objects.get(pk=pk)
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+
+    def get_serializer_class(self, *args, **kwargs):
+        return ArtifactSerializer
 
 
 class ArtifactList(generics.ListCreateAPIView):

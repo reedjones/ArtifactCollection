@@ -8,6 +8,7 @@ autologging
 django-vite
 django-tables2
 drf-generators
+coreapi
 django-cors-headers
 fabric
 django-recaptcha

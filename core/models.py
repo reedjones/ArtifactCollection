@@ -6,11 +6,29 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class CustomUser(AbstractUser):
+
+
+
+
+
+class WebhookMessage(models.Model):
+    received_at = models.DateTimeField(help_text="When we received the event.")
+    payload = models.JSONField(default=None, null=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["received_at"]),
+        ]
+
+
+class User(AbstractUser):
     # Add your custom fields here
 
     def __str__(self):
         return self.username
+
+    class Meta:
+        db_table = 'auth_user'
 
 
 class UserProfileManager(models.Manager):
