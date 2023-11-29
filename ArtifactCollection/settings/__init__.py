@@ -370,7 +370,14 @@ STATICFILES_DIRS = [
     # os.path.join(BASE_DIR, 'assets'),
 
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Collectstatic directory in production
+MORE_STATIC = config('STATIC_DIRS', '').split(",")
+if MORE_STATIC:
+    STATICFILES_DIRS += MORE_STATIC
+
+if ON_PRODUCTION:
+    STATIC_ROOT = config('STATIC_ROOT')
+else:
+    STATIC_ROOT = config('STATIC_ROOT', os.path.join(BASE_DIR, 'staticfiles'))
 
 # Media files (User-uploaded content)
 MEDIA_URL = '/media/'
@@ -382,9 +389,9 @@ PUBLIC_MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 PRIVATE_MEDIA_ROOT = os.path.join(BASE_DIR, 'private_media')
 
 if is_production():
-    MEDIA_ROOT = PUBLIC_MEDIA_ROOT
+    MEDIA_ROOT = config('MEDIA_ROOT')
 else:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_ROOT = config('MEDIA_ROOT', PUBLIC_MEDIA_ROOT)
 
 DEFAULT_FILE_STORAGE = 'your_project.storage_backends.PublicMediaStorage'  # Change this to your actual storage backend
 PRIVATE_FILE_STORAGE = 'your_project.storage_backends.PrivateMediaStorage'  # Change this to your actual storage backend
