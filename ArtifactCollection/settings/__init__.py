@@ -46,8 +46,8 @@ if ON_PRODUCTION and DEBUG:
 SITE_ID = 1
 
 
-allowed_host_path = config.get('allowed_host_path', None)
-allowed_cors_path = config.get('allowed_cors_path', None)
+allowed_host_path = config('allowed_host_path', None)
+allowed_cors_path = config('allowed_cors_path', None)
 
 
 if DEBUG and not ON_PRODUCTION:
@@ -66,23 +66,11 @@ else:
 
 
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+
+
 FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
-CORS_ALLOWED_ORIGINS = [
-    "https://harpercollection.info",
-    "http://localhost*",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000",
-    "http://127.0.0.1*",
-    "http://127.0.0.1:5173",
-    'artifacts.django.group',
-    "*django.group*"
-]
+
 if DEBUG:
     print("cool debug bro")
     ALLOWED_HOSTS += ["*"]
@@ -311,7 +299,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 TEMPLATED_EMAIL_BACKEND = "templated_email.backends.vanilla_django"
-DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL", "")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", "")
 
 if DJANGO_ENVIRONMENT not in ["development", "production"]:
     EMAIL_BACKEND = config(
@@ -322,13 +310,13 @@ else:
         "EMAIL_BACKEND", default="django.core.mail.backends.smtp.EmailBackend"
     )
 
-EMAIL_USE_TLS = config.get("EMAIL_USE_TLS", "")
-EMAIL_PORT =config.get("EMAIL_PORT", "")
-EMAIL_HOST = config.get("EMAIL_HOST", "")
-EMAIL_HOST_USER = config.get("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = config.get("EMAIL_HOST_PASSWORD", "")
-DEFAULT_FROM_EMAIL = config.get("DEFAULT_FROM_EMAIL ", "")
-SERVER_EMAIL = config.get("SERVER_EMAIL", "")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", "")
+EMAIL_PORT =config("EMAIL_PORT", "")
+EMAIL_HOST = config("EMAIL_HOST", "")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL ", "")
+SERVER_EMAIL = config("SERVER_EMAIL", "")
 
 BREADCRUMBS_TEMPLATE = "view_breadcrumbs/bootstrap4.html"
 
@@ -366,14 +354,14 @@ META_DEFAULT_KEYWORDS = "Arrow Heads, Collection, Native American Arrow Heads"
 META_USE_TWITTER_PROPERTIES = True
 META_USE_OG_PROPERTIES = True
 META_SITE_PROTOCOL = config("META_SITE_PROTOCOL", default="http")
-META_SITE_DOMAIN = config.get('META_SITE_DOMAIN', '')
+META_SITE_DOMAIN = config('META_SITE_DOMAIN', '')
 CELERY_TIMEZONE = TIME_ZONE
 
-ADMINS = [i.split(",") for i in config.get("ADMINS", "").split("|")]
-ADMIN_CONTACT_EMAIL = config.get("ADMIN_CONTACT_EMAIL", "")
-ADMIN_NOTIFY_EMAIL = config.get("ADMIN_NOTIFY_EMAIL", "")
+ADMINS = [i.split(",") for i in config("ADMINS", "").split("|")]
+ADMIN_CONTACT_EMAIL = config("ADMIN_CONTACT_EMAIL", "")
+ADMIN_NOTIFY_EMAIL = config("ADMIN_NOTIFY_EMAIL", "")
 
-SITE_URL = config.get('SITE_URL', "http://localhost:8000")
+SITE_URL = config('SITE_URL', "http://localhost:8000")
 
 
 STATIC_URL = '/static/'

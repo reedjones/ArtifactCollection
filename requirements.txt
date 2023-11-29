@@ -12,6 +12,7 @@ coreapi
 django-cors-headers
 fabric
 django-recaptcha
+gunicorn
 lxml
 numpy
 django-webpack-loader
